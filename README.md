@@ -2,7 +2,7 @@
 
 A Python script that automatically extracts all zip files in a folder into respective subfolders matching the zip file names.
 
-## 📋 Overview
+## Overview
 
 This script loops through all zip files in a specified directory and extracts each one into its own subfolder. For example:
 - `documents.zip` → extracted to `documents/` folder
@@ -11,16 +11,16 @@ This script loops through all zip files in a specified directory and extracts ea
 
 If the subfolders don't exist, they are created automatically.
 
-## ✨ Features
+## Features
 
-- 🔄 **Batch Processing**: Processes all zip files in a folder automatically
-- 📁 **Smart Folder Creation**: Creates subfolders based on zip file names
-- 🛡️ **Error Handling**: Handles corrupted files, permission issues, and other errors gracefully
-- 📊 **Progress Logging**: Shows real-time progress and detailed summary
-- 🎯 **Flexible Usage**: Can specify custom folder or use current directory
-- ✅ **Validation**: Checks zip file integrity before extraction
+- **Batch Processing**: Processes all zip files in a folder automatically
+- **Smart Folder Creation**: Creates subfolders based on zip file names
+- **Error Handling**: Handles corrupted files, permission issues, and other errors gracefully
+- **Progress Logging**: Shows real-time progress and detailed summary
+- **Flexible Usage**: Can specify custom folder or use current directory
+- **Validation**: Checks zip file integrity before extraction
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -54,7 +54,7 @@ If the subfolders don't exist, they are created automatically.
    python zip_extractor.py "/home/user/Downloads"
    ```
 
-## 💡 Usage Examples
+## Usage Examples
 
 ### Example 1: Current Directory
 ```bash
@@ -78,7 +78,7 @@ source .venv/bin/activate   # Linux/macOS
 python zip_extractor.py
 ```
 
-## 📁 Example Structure
+## Example Structure
 
 **Before extraction:**
 ```
@@ -107,7 +107,7 @@ my_folder/
 └── zip_extractor.py
 ```
 
-## 🔧 Advanced Options
+## Advanced Options
 
 ### Command Line Arguments
 
@@ -126,7 +126,7 @@ logging.basicConfig(level=logging.DEBUG)  # More verbose
 logging.basicConfig(level=logging.WARNING)  # Less verbose
 ```
 
-## 📊 Output Examples
+## Output Examples
 
 ### Successful Execution
 ```
@@ -150,8 +150,8 @@ Failed extractions: 1
 
 Detailed Results:
 ------------------------------
-✓ documents.zip → C:\Users\YourName\Downloads\documents (5 files)
-✓ photos.zip → C:\Users\YourName\Downloads\photos (12 files)
-✗ corrupted.zip - Error: Invalid zip file
+✔ documents.zip → C:\Users\YourName\Downloads\documents (5 files)
+✔ photos.zip → C:\Users\YourName\Downloads\photos (12 files)
+✖ corrupted.zip - Error: Invalid zip file
 ==================================================
 ```
