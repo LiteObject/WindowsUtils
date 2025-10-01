@@ -1,41 +1,161 @@
-# Zip File Extractor
+# Windows Utilities
 
-A Python script that automatically extracts all zip files in a folder into respective subfolders matching the zip file names.
+A collection of Python utilities for Windows system administration and file management. This toolkit includes scripts for batch font installation and automated zip file extraction.
 
 ## Overview
 
-This script loops through all zip files in a specified directory and extracts each one into its own subfolder. For example:
-- `documents.zip` → extracted to `documents/` folder
-- `photos.zip` → extracted to `photos/` folder
-- `projects.zip` → extracted to `projects/` folder
+This repository contains two main utilities:
 
-If the subfolders don't exist, they are created automatically.
+1. **Font Installer** - Automatically installs font files from multiple folders with admin elevation support
+2. **Zip Extractor** - Batch extracts zip files into organized subfolders
+
+Both tools include comprehensive error handling, detailed logging, and user-friendly progress reporting.
 
 ## Features
 
-- **Batch Processing**: Processes all zip files in a folder automatically
+### Font Installer
+- **Batch Installation**: Install fonts from all subfolders automatically
+- **Multiple Installation Methods**: Uses Windows Shell COM, direct file operations, registry, and Windows API
+- **Smart Detection**: Checks if fonts are already installed
+- **Flexible Overwrite Options**: Ask, skip, or force overwrite existing fonts
+- **Dry Run Mode**: Preview what would be installed without actually installing
+- **Admin Privilege Detection**: Warns if not running with administrator rights
+- **Supported Formats**: .ttf, .otf, .ttc, .fon, .fnt
+- **Detailed Logging**: Shows real-time progress and comprehensive summary
+
+### Zip Extractor
+- **Batch Processing**: Process all zip files in a folder automatically
 - **Smart Folder Creation**: Creates subfolders based on zip file names
-- **Error Handling**: Handles corrupted files, permission issues, and other errors gracefully
-- **Progress Logging**: Shows real-time progress and detailed summary
-- **Flexible Usage**: Can specify custom folder or use current directory
 - **Validation**: Checks zip file integrity before extraction
+- **Error Handling**: Handles corrupted files and permission issues gracefully
+- **Progress Logging**: Shows real-time progress and detailed summary
+- **Cross-Platform**: Works on Windows, macOS, and Linux
 
 ## Quick Start
 
 ### Prerequisites
 
 - Python 3.6 or higher
-- Windows, macOS, or Linux
+- Windows operating system (for Font Installer)
+- Administrator privileges (recommended for Font Installer)
 
 ### Installation
 
 1. **Clone or download** this repository:
    ```bash
    git clone <repository-url>
-   cd windows_util
+   cd WindowsUtils
    ```
 
-2. **No additional packages required** - uses Python standard library only!
+2. **Install dependencies** (for Font Installer):
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+   The Zip Extractor uses only Python standard library and requires no additional packages.
+
+## Font Installer Usage
+
+### Basic Usage
+
+1. **Install fonts from current directory (with prompts):**
+   ```bash
+   python font_installer.py
+   ```
+
+2. **Install fonts from specific folder:**
+   ```bash
+   python font_installer.py "C:\Downloads\Fonts"
+   ```
+
+3. **Dry run (preview without installing):**
+   ```bash
+   python font_installer.py --dry-run
+   ```
+
+4. **Force overwrite existing fonts:**
+   ```bash
+   python font_installer.py --force
+   ```
+
+5. **Skip existing fonts automatically:**
+   ```bash
+   python font_installer.py --overwrite no
+   ```
+
+### Command Line Options
+
+| Option | Description | Example |
+|--------|-------------|---------|
+| `folder_path` | Path to folder with font subfolders | `python font_installer.py "C:\Fonts"` |
+| `--dry-run` | Preview fonts without installing | `python font_installer.py --dry-run` |
+| `--overwrite {yes,no,ask}` | Handle existing fonts | `python font_installer.py --overwrite yes` |
+| `--force` | Force overwrite (same as `--overwrite yes`) | `python font_installer.py --force` |
+| `--verbose, -v` | Enable verbose logging | `python font_installer.py -v` |
+| `--no-admin-check` | Skip administrator privilege check | `python font_installer.py --no-admin-check` |
+
+### Font Installer Examples
+
+**Example 1: Install fonts with prompts for existing fonts**
+```bash
+python font_installer.py "C:\Downloads\FontCollection"
+```
+
+**Example 2: Preview what would be installed**
+```bash
+python font_installer.py "C:\Downloads\FontCollection" --dry-run
+```
+
+**Example 3: Install fonts, skipping existing ones**
+```bash
+python font_installer.py "C:\Downloads\FontCollection" --overwrite no
+```
+
+**Example 4: Force install all fonts, replacing existing**
+```bash
+python font_installer.py "C:\Downloads\FontCollection" --force
+```
+
+### Font Installer Output Example
+
+```
+Font Installer for Windows
+========================================
+Processing folder: C:\Users\YourName\Downloads\Fonts
+----------------------------------------
+2024-01-15 14:30:25 - INFO - Found 15 font file(s) in 3 folder(s) to install
+2024-01-15 14:30:25 - INFO - Processing font: Roboto-Regular.ttf
+2024-01-15 14:30:26 - INFO - Successfully installed: Roboto-Regular.ttf
+2024-01-15 14:30:26 - INFO - Processing font: Roboto-Bold.ttf
+2024-01-15 14:30:26 - INFO - Skipped: Roboto-Bold.ttf - Font already installed (skipped)
+
+============================================================
+FONT INSTALLATION SUMMARY
+============================================================
+Folders with fonts processed: 3
+Total font files processed: 15
+Successfully installed: 12
+Failed installations: 0
+Skipped (already installed): 3
+
+Detailed Results:
+----------------------------------------
+
+Folder: C:\Users\YourName\Downloads\Fonts\Roboto
+  ✓ Roboto-Regular.ttf
+  ⏭️  Roboto-Bold.ttf - Font already installed (skipped)
+  ✓ Roboto-Italic.ttf
+
+Folder: C:\Users\YourName\Downloads\Fonts\OpenSans
+  ✓ OpenSans-Regular.ttf
+  ✓ OpenSans-Bold.ttf
+============================================================
+
+🎉 Font installation completed!
+📝 Note: You may need to restart applications to see new fonts.
+```
+
+## Zip Extractor Usage
 
 ### Basic Usage
 
@@ -54,39 +174,27 @@ If the subfolders don't exist, they are created automatically.
    python zip_extractor.py "/home/user/Downloads"
    ```
 
-## Usage Examples
+### Zip Extractor Examples
 
-### Example 1: Current Directory
+**Example 1: Current directory**
 ```bash
-# Navigate to folder with zip files
 cd C:\Downloads
-python C:\path\to\zip_extractor.py
+python zip_extractor.py
 ```
 
-### Example 2: Specific Folder
+**Example 2: Specific folder**
 ```bash
 python zip_extractor.py "C:\Users\YourName\Documents\Archives"
 ```
 
-### Example 3: With Python Virtual Environment
-```bash
-# Activate virtual environment (if using one)
-.venv\Scripts\Activate.ps1  # Windows PowerShell
-source .venv/bin/activate   # Linux/macOS
-
-# Run the script
-python zip_extractor.py
-```
-
-## Example Structure
+### Example Structure
 
 **Before extraction:**
 ```
 my_folder/
 ├── documents.zip
 ├── photos.zip
-├── projects.zip
-└── zip_extractor.py
+└── projects.zip
 ```
 
 **After running the script:**
@@ -101,34 +209,13 @@ my_folder/
 │   ├── image1.jpg
 │   └── image2.png
 ├── projects.zip
-├── projects/          # ← Contents of projects.zip
-│   ├── project1/
-│   └── project2/
-└── zip_extractor.py
+└── projects/          # ← Contents of projects.zip
+    ├── project1/
+    └── project2/
 ```
 
-## Advanced Options
+### Zip Extractor Output Example
 
-### Command Line Arguments
-
-| Argument | Description | Example |
-|----------|-------------|---------|
-| `folder_path` | Target folder containing zip files | `python zip_extractor.py "C:\Archives"` |
-| (none) | Uses current working directory | `python zip_extractor.py` |
-
-### Logging Levels
-
-The script uses Python's logging module. To see more detailed output, you can modify the logging level in the script:
-
-```python
-# In zip_extractor.py, change this line:
-logging.basicConfig(level=logging.DEBUG)  # More verbose
-logging.basicConfig(level=logging.WARNING)  # Less verbose
-```
-
-## Output Examples
-
-### Successful Execution
 ```
 Zip File Extractor
 Processing folder: C:\Users\YourName\Downloads
@@ -150,8 +237,80 @@ Failed extractions: 1
 
 Detailed Results:
 ------------------------------
-✔ documents.zip → C:\Users\YourName\Downloads\documents (5 files)
-✔ photos.zip → C:\Users\YourName\Downloads\photos (12 files)
-✖ corrupted.zip - Error: Invalid zip file
+✓ documents.zip → C:\Users\YourName\Downloads\documents (5 files)
+✓ photos.zip → C:\Users\YourName\Downloads\photos (12 files)
+✗ corrupted.zip - Error: Invalid zip file
 ==================================================
 ```
+
+## Error Handling
+
+Both utilities include comprehensive error handling:
+
+### Font Installer
+- Invalid or corrupted font files
+- Permission issues (warns if not running as admin)
+- Registry access errors
+- File system errors
+- Font already installed detection
+
+### Zip Extractor
+- Invalid or corrupted zip files
+- Permission denied errors
+- File system errors
+- Missing directory errors
+
+## Dependencies
+
+- **Font Installer**: Requires `pywin32` (see [requirements.txt](requirements.txt))
+- **Zip Extractor**: No external dependencies (uses Python standard library)
+
+Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+## Technical Details
+
+### Font Installer Methods
+
+The [`font_installer.py`](font_installer.py) uses multiple installation methods in order of preference:
+
+1. **Windows Shell COM**: Uses [`install_font_shell_com`](font_installer.py) with automatic elevation handling
+2. **Direct File Operations**: Uses [`install_font_powershell`](font_installer.py) to avoid system dialogs
+3. **Copy & Registry**: Uses [`install_font_copy`](font_installer.py) for manual installation
+4. **Windows API**: Falls back to [`ctypes.windll.gdi32.AddFontResourceW`](font_installer.py) if needed
+
+### Key Functions
+
+#### Font Installer
+- [`is_admin()`](font_installer.py): Checks for administrator privileges
+- [`is_font_installed()`](font_installer.py): Detects if font is already installed
+- [`install_font()`](font_installer.py): Main installation function with multiple methods
+- [`find_font_files()`](font_installer.py): Recursively finds all font files
+- [`install_fonts_from_folder()`](font_installer.py): Batch processes fonts from folder
+
+#### Zip Extractor
+- [`extract_zip_files()`](zip_extractor.py): Main extraction function
+- [`print_summary()`](zip_extractor.py): Displays detailed extraction results
+
+## Logging
+
+Both utilities use Python's `logging` module for progress tracking:
+
+- **INFO**: Standard operation messages
+- **DEBUG**: Verbose mode (use `--verbose` flag for Font Installer)
+- **ERROR**: Error messages and failures
+- **WARNING**: Non-critical issues
+
+## Supported File Formats
+
+### Font Installer
+- `.ttf` - TrueType Font
+- `.otf` - OpenType Font
+- `.ttc` - TrueType Collection
+- `.fon` - Bitmap Font
+- `.fnt` - Bitmapped Font
+
+### Zip Extractor
+- `.zip` - Standard ZIP archives
