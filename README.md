@@ -1,15 +1,17 @@
 # Windows Utilities
 
-A collection of Python utilities for Windows system administration and file management. This toolkit includes scripts for batch font installation and automated zip file extraction.
+A collection of utilities for Windows system administration, troubleshooting, and file management. This toolkit includes scripts for batch font installation, automated zip file extraction, and Bluetooth audio diagnostics and repair.
 
 ## Overview
 
-This repository contains two main utilities:
+This repository contains four main utilities:
 
-1. **Font Installer** - Automatically installs font files from multiple folders with admin elevation support
-2. **Zip Extractor** - Batch extracts zip files into organized subfolders
+1. **Font Installer** (Python) - Automatically installs font files from multiple folders with admin elevation support
+2. **Zip Extractor** (Python) - Batch extracts zip files into organized subfolders
+3. **Bluetooth Audio Diagnostics** (PowerShell) - Comprehensive diagnostics for Bluetooth audio device issues
+4. **Bluetooth Audio Fix** (PowerShell) - Automated fixes for common Bluetooth audio problems
 
-Both tools include comprehensive error handling, detailed logging, and user-friendly progress reporting.
+All tools include comprehensive error handling, detailed logging, and user-friendly progress reporting.
 
 ## Features
 
@@ -31,13 +33,31 @@ Both tools include comprehensive error handling, detailed logging, and user-frie
 - **Progress Logging**: Shows real-time progress and detailed summary
 - **Cross-Platform**: Works on Windows, macOS, and Linux
 
+### Bluetooth Audio Diagnostics
+- **Comprehensive Device Scanning**: Lists all audio devices with detailed status
+- **Driver Status Checks**: Verifies Bluetooth audio driver and A2DP profile status
+- **Volume Level Detection**: Identifies volume-related issues
+- **PnP Device Analysis**: Checks for device problem codes and errors
+- **Service Status**: Verifies Bluetooth and audio service health
+- **Device Switching Tests**: Tests ability to switch between audio devices
+- **Registry Validation**: Checks audio configuration in Windows registry
+
+### Bluetooth Audio Fix
+- **A2DP Driver Reset**: Disables and re-enables Bluetooth audio drivers
+- **Audio Endpoint Refresh**: Resets audio endpoint configurations
+- **Service Restart**: Restarts Bluetooth and audio services
+- **Default Device Configuration**: Forces correct default device selection
+- **Automated Verification**: Checks if fixes resolved the issues
+- **Guided Troubleshooting**: Provides next steps if automated fixes don't work
+
 ## Quick Start
 
 ### Prerequisites
 
-- Python 3.6 or higher
-- Windows operating system (for Font Installer)
-- Administrator privileges (recommended for Font Installer)
+- Python 3.6 or higher (for Python utilities)
+- Windows operating system
+- PowerShell 5.1 or higher (for Bluetooth scripts)
+- Administrator privileges (required for Font Installer and Bluetooth scripts)
 
 ### Installation
 
@@ -47,12 +67,17 @@ Both tools include comprehensive error handling, detailed logging, and user-frie
    cd WindowsUtils
    ```
 
-2. **Install dependencies** (for Font Installer):
+2. **Install dependencies**:
    ```bash
    pip install -r requirements.txt
    ```
 
-   The Zip Extractor uses only Python standard library and requires no additional packages.
+   For Bluetooth audio scripts, install the AudioDeviceCmdlets module:
+   ```powershell
+   Install-Module -Name AudioDeviceCmdlets
+   ```
+
+   Note: The Zip Extractor uses only Python standard library and requires no additional packages.
 
 ## Font Installer Usage
 
@@ -243,6 +268,133 @@ Detailed Results:
 ==================================================
 ```
 
+## Bluetooth Audio Diagnostics Usage
+
+### Running Diagnostics
+
+1. **Run diagnostics on Bluetooth audio device:**
+   ```powershell
+   .\bluetooth_audio_diagnostics.ps1
+   ```
+
+   **Note**: Must be run as Administrator in PowerShell.
+
+### What It Checks
+
+The diagnostics script performs 11 comprehensive checks:
+
+1. Current default audio device details
+2. All playback devices with their status
+3. Specific device volume levels
+4. PnP device status and problem codes
+5. Bluetooth audio driver status
+6. A2DP profile availability
+7. Audio device driver information
+8. System audio configuration (registry)
+9. Device ID retrieval for manual checks
+10. Device switching capability test
+11. Error codes and device problems
+
+### Diagnostics Output Example
+
+```powershell
+========================================
+Deep Audio Diagnostics
+========================================
+
+[1] Current Default Device - Full Details:
+   Device: Soundbar (S6520)
+   Volume: 45%
+   Muted: False
+
+[2] All Playback Devices with Status:
+Index Default Name              DeviceState
+----- ------- ----              -----------
+1     True    Soundbar (S6520)  Active
+2     False   Speakers          Active
+
+[10] Testing Device Switching:
+   Current device: Soundbar (S6520)
+   Attempting to switch to device Index 2...
+   Switched to: Speakers
+   Switching back to S6520...
+   Current device: Soundbar (S6520)
+   Device switching works!
+
+========================================
+Diagnostics Complete!
+========================================
+```
+
+## Bluetooth Audio Fix Usage
+
+### Running Fixes
+
+1. **Apply automated fixes:**
+   ```powershell
+   .\bluetooth_audio_fix.ps1
+   ```
+
+   **Note**: Must be run as Administrator in PowerShell.
+
+### What It Fixes
+
+The fix script applies 5 different fixes automatically:
+
+1. **A2DP Driver Reset**: Disables and re-enables the Bluetooth A2DP audio driver
+2. **Audio Endpoint Reset**: Resets the audio endpoint configuration
+3. **Bluetooth Services Restart**: Restarts Bluetooth Support and Audio Gateway services
+4. **Audio Services Restart**: Restarts Windows Audio and Audio Endpoint Builder services
+5. **Default Device Reset**: Forces the device to be set as default again
+
+### Fix Script Output Example
+
+```powershell
+========================================
+Advanced Bluetooth Audio Fix
+========================================
+
+[Fix 1] Resetting Bluetooth Audio Driver (A2DP)...
+   Found S6520 A2DP device. Resetting...
+   Disabled A2DP driver.
+   Re-enabled A2DP driver.
+
+[Fix 2] Resetting Audio Endpoint...
+   Found S6520 audio endpoint. Resetting...
+   Disabled audio endpoint.
+   Re-enabled audio endpoint.
+
+[Fix 3] Restarting Bluetooth Services...
+   Bluetooth Support Service restarted.
+   Bluetooth Audio Gateway Service restarted.
+
+[Fix 4] Restarting Audio Services...
+   Audio services restarted.
+
+[Fix 5] Setting S6520 as default device...
+   S6520 set as default.
+
+[Verification] Checking S6520 status now:
+   Current Device: Soundbar (S6520)
+   Volume: 50%
+   Muted: False
+
+   ✓ Volume is now readable! Audio stream should work.
+
+========================================
+Fixes Applied!
+========================================
+
+Next Steps:
+1. Test audio NOW (play YouTube video, etc.)
+2. If still not working, the Bluetooth connection may need to be removed:
+   - Go to Settings > Bluetooth & devices
+   - Find S6520 and click 'Remove device'
+   - Turn off/on the speaker and re-pair it
+3. Check if your soundbar has multiple audio modes (stereo/surround)
+   - Some modes don't work properly with Windows Bluetooth
+```
+
 ## Error Handling
 
 Both utilities include comprehensive error handling:
@@ -260,14 +412,27 @@ Both utilities include comprehensive error handling:
 - File system errors
 - Missing directory errors
 
+### Bluetooth Audio Scripts
+- Missing AudioDeviceCmdlets module
+- Insufficient permissions (requires Administrator)
+- Device not found or disconnected
+- Service restart failures
+- Driver enable/disable errors
+
 ## Dependencies
 
-- **Font Installer**: Requires `pywin32` (see [requirements.txt](requirements.txt))
+- **Font Installer**: Requires `pywin32` (see requirements.txt)
 - **Zip Extractor**: No external dependencies (uses Python standard library)
+- **Bluetooth Audio Scripts**: Requires `AudioDeviceCmdlets` PowerShell module
 
-Install dependencies:
+Install Python dependencies:
 ```bash
 pip install -r requirements.txt
+```
+
+Install PowerShell module (as Administrator):
+```powershell
+Install-Module -Name AudioDeviceCmdlets
 ```
 
 ## Technical Details
@@ -294,6 +459,11 @@ The [`font_installer.py`](font_installer.py) uses multiple installation methods 
 - [`extract_zip_files()`](zip_extractor.py): Main extraction function
 - [`print_summary()`](zip_extractor.py): Displays detailed extraction results
 
+#### Bluetooth Audio Scripts
+- **Diagnostics**: 11 comprehensive checks covering devices, drivers, services, and configuration
+- **Fix Script**: 5 automated fixes for common Bluetooth audio issues
+- Both scripts include color-coded output for easy reading and status verification
+
 ## Logging
 
 Both utilities use Python's `logging` module for progress tracking:
@@ -314,3 +484,87 @@ Both utilities use Python's `logging` module for progress tracking:
 
 ### Zip Extractor
 - `.zip` - Standard ZIP archives
+
+### Bluetooth Audio Scripts
+- Works with all Bluetooth audio devices
+- Specifically tested with A2DP audio profile
+- Supports stereo and headset profiles
+
+## Troubleshooting
+
+### Font Installer Issues
+
+**Problem**: "This script is not running with administrator privileges"
+- **Solution**: Right-click Command Prompt/PowerShell and select "Run as Administrator"
+
+**Problem**: "All installation methods failed"
+- **Solution**: Ensure you have admin rights and the font file is not corrupted
+
+**Problem**: Font shows as installed but doesn't appear in applications
+- **Solution**: Restart the application or log out and log back in
+
+### Zip Extractor Issues
+
+**Problem**: "Invalid zip file" error
+- **Solution**: The zip file may be corrupted. Try downloading it again
+
+**Problem**: "Permission denied" error
+- **Solution**: Check that you have write permissions for the target folder
+
+**Problem**: Extracted folder is empty
+- **Solution**: The zip file may be password-protected or empty
+
+### Bluetooth Audio Script Issues
+
+**Problem**: "Module AudioDeviceCmdlets not found"
+- **Solution**: Install the module: `Install-Module -Name AudioDeviceCmdlets` (as Administrator)
+
+**Problem**: "Access Denied" or permission errors
+- **Solution**: Run PowerShell as Administrator (right-click PowerShell → Run as Administrator)
+
+**Problem**: Diagnostics show "Volume: " (blank)
+- **Solution**: Run the fix script - this indicates audio stream isn't working properly
+
+**Problem**: Device shows in list but no audio plays
+- **Solution**: Try the fix script, then check Volume Mixer to ensure app-specific volume isn't at 0
+
+**Problem**: Fixes don't work
+- **Solution**: 
+  1. Remove the Bluetooth device from Settings
+  2. Turn off the Bluetooth speaker/headphones
+  3. Re-pair the device
+  4. Run the diagnostics script again
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit pull requests or open issues for bugs and feature requests.
+
+## License
+
+This project is open source. Please check the repository for license information.
+
+## Authors
+
+LiteObject
+
+## Acknowledgments
+
+- Python utilities built with Python's standard library and pywin32
+- PowerShell scripts utilize AudioDeviceCmdlets module
+- Designed for Windows system administrators and power users
+
+## Support
+
+If you encounter issues or have questions:
+1. Check the Troubleshooting section above
+2. Run the diagnostics scripts for detailed information
+3. Open an issue on GitHub with diagnostic output
+
+## Utility Summary
+
+| Utility | Language | Purpose | Admin Required |
+|---------|----------|---------|----------------|
+| Font Installer | Python | Batch install fonts from folders | Recommended |
+| Zip Extractor | Python | Batch extract zip files | No |
+| Bluetooth Audio Diagnostics | PowerShell | Diagnose Bluetooth audio issues | Yes |
+| Bluetooth Audio Fix | PowerShell | Fix common Bluetooth audio problems | Yes |
